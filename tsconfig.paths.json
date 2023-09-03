@@ -10,6 +10,7 @@
       "@Styles/*": ["src/styles/*"],
       "@Redux/*": ["src/redux/*"],
       "@Slices/*": ["src/redux/slices/*"],
+      "@Sagas/*": ["src/sagas/*"],
       "@Selectors/*": ["src/redux/selectors/*"],
       "@Svg/*": ["src/svg/*"],
     }

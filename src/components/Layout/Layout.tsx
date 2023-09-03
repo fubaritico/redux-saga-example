@@ -2,8 +2,8 @@ import React, { FC, useState, PropsWithChildren, useEffect } from 'react'
 import clsx from 'clsx'
 
 import {
-  fetchIdentities,
-  fetchIdentity,
+  FETCH_IDENTITIES,
+  FETCH_IDENTITY,
   setListMode,
   setSortMode,
 } from '@Redux/identities/actions'
@@ -23,21 +23,23 @@ import {
 } from '@Redux/identities/selectors'
 
 import SortDropdown from '@Components/SortDropdown'
+import {PendindFetchAction} from "@Redux/identities/types";
+import {action} from "@Redux/store";
 
 const Layout: FC<PropsWithChildren> = ({ children }) => {
   const dispatch = useAppDispatch()
   const listMode = useAppSelector<boolean>(getListMode)
   const sortMode = useAppSelector<string | undefined>(getSortMode)
-  const pendingFetches = useAppSelector<string[]>(getPendingFetches)
+  const pendingFetches = useAppSelector<PendindFetchAction[]>(getPendingFetches)
   const [darkMode, setDarkMode] = useState(true)
 
   useEffect(() => {
-    setDarkMode(localStorage.getItem('dark-mode:relevanc') === 'true')
+    setDarkMode(localStorage.getItem('dark-mode:sagas') === 'true')
   }, [darkMode])
 
   const toggleDarkMode = () => {
-    localStorage.setItem('dark-mode:relevanc', (!darkMode).toString())
-    setDarkMode(localStorage.getItem('dark-mode:relevanc') === 'true')
+    localStorage.setItem('dark-mode:sagas', (!darkMode).toString())
+    setDarkMode(localStorage.getItem('dark-mode:sagas') === 'true')
   }
 
   const onToggleListMode = () => {
@@ -61,18 +63,18 @@ const Layout: FC<PropsWithChildren> = ({ children }) => {
             <div className="flex space-x-2 mr-auto">
               <Button
                 disabled={pendingFetches.length > 0}
-                loading={pendingFetches.includes('addingOneItem')}
+                loading={pendingFetches.includes('ADD_ONE')}
                 onClick={() => {
-                  dispatch(fetchIdentity())
+                  dispatch(action(FETCH_IDENTITY))
                 }}
               >
                 Add Identity
               </Button>
               <Button
                 disabled={pendingFetches.length > 0}
-                loading={pendingFetches.includes('addingFiveItem')}
+                loading={pendingFetches.includes('ADD_MANY')}
                 onClick={() => {
-                  dispatch(fetchIdentities(5)())
+                  dispatch(action(FETCH_IDENTITIES))
                 }}
               >
                 Add 5 Identities

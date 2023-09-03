@@ -1,7 +1,16 @@
 import { Action, createReducer, Draft } from '@reduxjs/toolkit'
-import { fetchIdentities, fetchIdentity } from '@Redux/identities/actions'
+import {
+  ADD_IDENTITIES,
+  FETCH_IDENTITIES_FAILED,
+  FETCH_IDENTITIES_FULFILLED,
+  FETCH_IDENTITIES_PENDING,
+  REMOVE_IDENTITY,
+  SET_LIST_MODE,
+  SET_SORT_MODE
+} from '@Redux/identities/actions'
 import type { Identity, IdentityState } from '@Redux/identities/types'
 import { sortIdentities } from '@Helpers/sorting'
+import {PendindFetchAction} from "@Redux/identities/types";
 
 const initialState: IdentityState = {
   identities: [],
@@ -11,37 +20,36 @@ const initialState: IdentityState = {
 
 const identitiesReducer = createReducer(initialState, (builder) => {
   builder
-    .addCase(fetchIdentity.pending, (state) => {
-      state.pendingFetches = [...state.pendingFetches, 'addingOneItem']
+    .addCase(FETCH_IDENTITIES_PENDING, (
+        state: Draft<IdentityState>,
+        action: Action<typeof FETCH_IDENTITIES_PENDING> & {
+          payload: PendindFetchAction
+        }) => {
+      state.pendingFetches = [...state.pendingFetches, action.payload]
     })
-    .addCase(fetchIdentity.fulfilled, (state: Draft<IdentityState>) => {
+    .addCase(FETCH_IDENTITIES_FULFILLED, (
+        state: Draft<IdentityState>,
+        action: Action<typeof FETCH_IDENTITIES_FULFILLED> & {
+          payload: PendindFetchAction
+        }) => {
       state.pendingFetches = state.pendingFetches.filter(
-        (item) => item !== 'addingOneItem'
+        (item) => item !== action.payload
       )
     })
-    .addCase(fetchIdentity.rejected, (state: Draft<IdentityState>) => {
+    .addCase(FETCH_IDENTITIES_FAILED, (
+        state: Draft<IdentityState>,
+        action: Action<typeof FETCH_IDENTITIES_FAILED> & {
+          payload: PendindFetchAction
+        }) => {
       state.pendingFetches = state.pendingFetches.filter(
-        (item) => item !== 'addingOneItem'
-      )
-    })
-    .addCase(fetchIdentities(5).pending, (state) => {
-      state.pendingFetches = [...state.pendingFetches, 'addingFiveItem']
-    })
-    .addCase(fetchIdentities(5).fulfilled, (state: Draft<IdentityState>) => {
-      state.pendingFetches = state.pendingFetches.filter(
-        (item) => item !== 'addingFiveItem'
-      )
-    })
-    .addCase(fetchIdentities(5).rejected, (state: Draft<IdentityState>) => {
-      state.pendingFetches = state.pendingFetches.filter(
-        (item) => item !== 'addingFiveItem'
+          (item) => item !== action.payload
       )
     })
     .addCase(
-      'identities/addIdentities',
+        ADD_IDENTITIES,
       (
         state: Draft<IdentityState>,
-        action: Action<'identities/addIdentities'> & {
+        action: Action<typeof ADD_IDENTITIES> & {
           payload: { identities: Identity[] }
         }
       ) => {
@@ -50,10 +58,10 @@ const identitiesReducer = createReducer(initialState, (builder) => {
       }
     )
     .addCase(
-      'identities/removeIdentity',
+      REMOVE_IDENTITY,
       (
         state: Draft<IdentityState>,
-        action: Action<'identities/removeIdentity'> & { payload: string }
+        action: Action<typeof REMOVE_IDENTITY> & { payload: string }
       ) => {
         state.identities = state.identities.filter(
           (m) => m.id !== action.payload
@@ -61,10 +69,10 @@ const identitiesReducer = createReducer(initialState, (builder) => {
       }
     )
     .addCase(
-      'identities/setListMode',
+      SET_LIST_MODE,
       (
         state: Draft<IdentityState>,
-        action: Action<'identities/setListMode'> & {
+        action: Action<typeof SET_LIST_MODE> & {
           payload: { listMode: boolean }
         }
       ) => {
@@ -72,10 +80,10 @@ const identitiesReducer = createReducer(initialState, (builder) => {
       }
     )
     .addCase(
-      'identities/setSortMode',
+      SET_SORT_MODE,
       (
         state: Draft<IdentityState>,
-        action: Action<'identities/setSortMode'> & { payload: string }
+        action: Action<typeof SET_SORT_MODE> & { payload: string }
       ) => {
         state.sortMode = action.payload
         state.identities = sortIdentities(state.identities, state.sortMode)

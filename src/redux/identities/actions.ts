@@ -1,12 +1,18 @@
-import { createAction, createAsyncThunk } from '@reduxjs/toolkit'
+import { createAction } from '@reduxjs/toolkit'
 import type { Identity } from '@Redux/identities/types'
-import axios from 'axios'
 
-const identityFetcher = () =>
-  axios.get('https://exercise-1-backend-dvdomulgfq-ew.a.run.app/user')
+export const FETCH_IDENTITIES_PENDING = 'FETCH_IDENTITIES_PENDING'
+export const FETCH_IDENTITIES_FULFILLED = 'FETCH_IDENTITIES_FULFILLED'
+export const FETCH_IDENTITIES_FAILED = 'FETCH_IDENTITIES_FAILED'
+export const FETCH_IDENTITY = 'FETCH_IDENTITY'
+export const FETCH_IDENTITIES = 'FETCH_IDENTITIES'
+export const ADD_IDENTITIES = 'ADD_IDENTITIES'
+export const REMOVE_IDENTITY = 'REMOVE_IDENTITY'
+export const SET_LIST_MODE = 'SET_LIST_MODE'
+export const SET_SORT_MODE = 'SET_SORT_MODE'
 
 export const addIdentities = createAction(
-  'identities/addIdentities',
+    ADD_IDENTITIES,
   (identities: Identity[]) => ({
     payload: {
       identities,
@@ -15,7 +21,7 @@ export const addIdentities = createAction(
 )
 
 export const setListMode = createAction(
-  'identities/setListMode',
+  SET_LIST_MODE,
   (listMode: boolean) => ({
     payload: {
       listMode,
@@ -23,43 +29,15 @@ export const setListMode = createAction(
   })
 )
 
-export const fetchIdentities = (calls: number) =>
-  createAsyncThunk('identities/fetchIdentities', async (_, thunkAPI) => {
-    const times = new Array(calls).fill(
-      'https://exercise-1-backend-dvdomulgfq-ew.a.run.app/user'
-    )
-
-    const responses = await Promise.all(times.map((url) => axios.get(url)))
-
-    const identities = responses.map((response) => {
-      const identity = response.data
-      identity.id = Math.floor(Math.random() * 1000000)
-      return identity
-    })
-
-    thunkAPI.dispatch(addIdentities(identities))
-  })
-
-export const fetchIdentity = createAsyncThunk(
-  'identities/fetchIdentity',
-  async (_, thunkAPI) => {
-    const response = await identityFetcher()
-    const identity = response.data
-    identity.id = Math.floor(Math.random() * 1000000)
-    thunkAPI.dispatch(addIdentities([identity]))
-    return response
-  }
-)
-
 export const removeIdentity = createAction(
-  'identities/removeIdentity',
+  REMOVE_IDENTITY,
   (id: string) => ({
     payload: id,
   })
 )
 
 export const setSortMode = createAction(
-  'identities/setSortMode',
+  SET_SORT_MODE,
   (sortMode: string) => ({
     payload: sortMode,
   })

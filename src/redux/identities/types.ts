@@ -1,3 +1,5 @@
+export type PendindFetchAction = 'ADD_ONE' | 'ADD_MANY' | undefined
+
 export type Identity = {
   id: string
   username: string
@@ -8,7 +10,7 @@ export type Identity = {
 
 export type IdentityState = {
   identities: Identity[]
-  pendingFetches: string[]
+  pendingFetches: PendindFetchAction[]
   listMode: boolean
   sortMode?: string
 }
