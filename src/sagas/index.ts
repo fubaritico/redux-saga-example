@@ -17,12 +17,12 @@ const identityFetcher = () => axios.get('https://exercise-1-backend-dvdomulgfq-e
 
 type FetchIdentityCallEffect = CallEffect<AxiosResponse>
 type FetchIdentityAllEffect = AllEffect<FetchIdentityCallEffect>
-type FetchIdentitiesGenerator = Generator<SelectEffect | FetchIdentityCallEffect | FetchIdentityAllEffect| PutEffect<AnyAction>>
+export type FetchIdentitiesGenerator = Generator<SelectEffect | FetchIdentityCallEffect | FetchIdentityAllEffect| PutEffect<AnyAction>>
 
 /** **********************************************************************
  * SAGAS
  */
-function *fetchIdentities (calls = 1): FetchIdentitiesGenerator {
+export function *fetchIdentities (calls = 1): FetchIdentitiesGenerator {
     yield put({ type: FETCH_IDENTITIES_PENDING , payload: calls === 1 ? 'ADD_ONE' : 'ADD_MANY'})
     console.log('fetchIdentities')
     const listMode = yield select(getListMode)

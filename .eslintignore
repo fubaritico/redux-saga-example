@@ -1,0 +1,12 @@
+jest.config.js
+jest.setup.afterEnv.js
+jest.setup.js
+
+node_modules
+public
+
+craco.config.js
+
+tailwind.config.js
+
+babel.config.js

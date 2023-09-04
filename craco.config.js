@@ -14,4 +14,11 @@ module.exports = {
       '@Svg': path.resolve(__dirname, 'src/svg'),
     },
   },
+  jest: {
+    configure: {
+      globals: {
+        CONFIG: true,
+      },
+    },
+  },
 }

@@ -24,8 +24,6 @@
     "jsx": "react-jsx"
   },
   "include": [
-    "src",
-    "src/movies.js",
-    "globals.d.ts"
+    "src"
   ]
 }
