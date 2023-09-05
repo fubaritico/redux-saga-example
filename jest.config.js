@@ -1,8 +1,7 @@
-const { createJestConfig } = require('@craco/craco');
+const { createJestConfig } = require('@craco/craco')
 
-const cracoConfig = require('./craco.config.js');
-const jestConfig = createJestConfig(cracoConfig);
-console.log('jestConfig: ', jestConfig)
+const cracoConfig = require('./craco.config.js')
+const jestConfig = createJestConfig(cracoConfig)
 
 const config = {
   ...jestConfig,
@@ -12,7 +11,7 @@ const config = {
     customExportConditions: ['browser'],
   },
   setupFilesAfterEnv: ['<rootDir>/jest.setup.afterEnv.js'],
-  setupFiles: ['<rootDir>/jest.setup.js'],
+  setupFiles: ['<rootDir>/jest.setup.js', '<rootDir>/setupFetchForAllTests.js'],
   testRegex: ['(/src/.*(test|spec))\\.[jt]sx?$'],
   testMatch: undefined,
   testTimeout: 80_000,
@@ -36,6 +35,5 @@ const config = {
     '^.+\\.(js|jsx)$': 'babel-jest',
   },
 }
-console.log('config: ', config)
 
 module.exports = config

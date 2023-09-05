@@ -1,5 +1,4 @@
 import { createSelector } from '@reduxjs/toolkit'
-import { IdentityState } from '@Redux/identities/types'
 
 export const getIdentityState = (state: RootState): IdentityState => state
 

@@ -1,9 +1,9 @@
 import React, { FC } from 'react'
 
 import IdentityCard from '@Components/IdentityCard'
-import { useAppSelector } from '@Redux/hooks'
 import { getIdentities, getListMode } from '@Redux/identities/selectors'
 import clsx from 'clsx'
+import { useAppSelector } from '@Redux/hooks'
 
 const Identities: FC = () => {
   const identities = useAppSelector(getIdentities)

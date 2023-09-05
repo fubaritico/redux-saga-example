@@ -2,12 +2,10 @@ import React, { FC } from 'react'
 import clsx from 'clsx'
 import { format } from 'date-fns'
 
-import type { Identity } from '@Redux/identities/types'
-
-import { useAppDispatch } from '@Redux/hooks'
 import { removeIdentity } from '@Redux/identities/actions'
 
 import DeleteButton from '@Components/DeleteButton'
+import { useAppDispatch } from '@Redux/hooks'
 
 export type CardProps = {
   className?: string

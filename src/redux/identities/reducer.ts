@@ -6,11 +6,9 @@ import {
   FETCH_IDENTITIES_PENDING,
   REMOVE_IDENTITY,
   SET_LIST_MODE,
-  SET_SORT_MODE
+  SET_SORT_MODE,
 } from '@Redux/identities/actions'
-import type { Identity, IdentityState } from '@Redux/identities/types'
 import { sortIdentities } from '@Helpers/sorting'
-import {PendindFetchAction} from "@Redux/identities/types";
 
 const initialState: IdentityState = {
   identities: [],
@@ -20,33 +18,45 @@ const initialState: IdentityState = {
 
 const identitiesReducer = createReducer(initialState, (builder) => {
   builder
-    .addCase(FETCH_IDENTITIES_PENDING, (
+    .addCase(
+      FETCH_IDENTITIES_PENDING,
+      (
         state: Draft<IdentityState>,
         action: Action<typeof FETCH_IDENTITIES_PENDING> & {
           payload: PendindFetchAction
-        }) => {
-      state.pendingFetches = [...state.pendingFetches, action.payload]
-    })
-    .addCase(FETCH_IDENTITIES_FULFILLED, (
+        }
+      ) => {
+        state.pendingFetches = [...state.pendingFetches, action.payload]
+      }
+    )
+    .addCase(
+      FETCH_IDENTITIES_FULFILLED,
+      (
         state: Draft<IdentityState>,
         action: Action<typeof FETCH_IDENTITIES_FULFILLED> & {
           payload: PendindFetchAction
-        }) => {
-      state.pendingFetches = state.pendingFetches.filter(
-        (item) => item !== action.payload
-      )
-    })
-    .addCase(FETCH_IDENTITIES_FAILED, (
+        }
+      ) => {
+        state.pendingFetches = state.pendingFetches.filter(
+          (item) => item !== action.payload
+        )
+      }
+    )
+    .addCase(
+      FETCH_IDENTITIES_FAILED,
+      (
         state: Draft<IdentityState>,
         action: Action<typeof FETCH_IDENTITIES_FAILED> & {
-          payload: PendindFetchAction
-        }) => {
-      state.pendingFetches = state.pendingFetches.filter(
-          (item) => item !== action.payload
-      )
-    })
+          payload: { fetchActionType: PendindFetchAction; error: Error }
+        }
+      ) => {
+        state.pendingFetches = state.pendingFetches.filter(
+          (item) => item !== action.payload.fetchActionType
+        )
+      }
+    )
     .addCase(
-        ADD_IDENTITIES,
+      ADD_IDENTITIES,
       (
         state: Draft<IdentityState>,
         action: Action<typeof ADD_IDENTITIES> & {

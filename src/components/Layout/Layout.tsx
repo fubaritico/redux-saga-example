@@ -7,7 +7,6 @@ import {
   setListMode,
   setSortMode,
 } from '@Redux/identities/actions'
-import { useAppDispatch, useAppSelector } from '@Redux/hooks'
 
 import { ReactComponent as SunIcon } from '@Svg/sun.svg'
 import { ReactComponent as MoonIcon } from '@Svg/moon.svg'
@@ -23,8 +22,8 @@ import {
 } from '@Redux/identities/selectors'
 
 import SortDropdown from '@Components/SortDropdown'
-import {PendindFetchAction} from "@Redux/identities/types";
-import {action} from "@Redux/store";
+import { action } from '@Redux/store'
+import { useAppDispatch, useAppSelector } from '@Redux/hooks'
 
 const Layout: FC<PropsWithChildren> = ({ children }) => {
   const dispatch = useAppDispatch()

@@ -1,4 +1,3 @@
-import { Identity } from '@Redux/identities/types'
 import { format } from 'date-fns'
 
 export const sortByName = (identities: Identity[]): Identity[] =>

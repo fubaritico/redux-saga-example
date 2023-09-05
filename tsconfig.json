@@ -24,6 +24,8 @@
     "jsx": "react-jsx"
   },
   "include": [
-    "src"
+    "src",
+    "global.d.ts",
+    "node_modules/jest-fetch-mock/types/index.d.ts"
   ]
 }
